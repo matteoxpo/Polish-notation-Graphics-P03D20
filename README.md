@@ -60,6 +60,8 @@ You didn't have to look far and had no problem pulling out a couple of crumpled 
 
 ***LOADING...***
 
+> DON'T FORGET! All your programs are tested for the style norm and memory leaks. Start-up instructions
+> the list of tests is also in the `materials` folder
 
 # Chapter II
 
