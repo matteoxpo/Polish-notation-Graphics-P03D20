@@ -29,7 +29,7 @@ You look around and quickly notice huge speakers hanging from above and a massiv
 
 That's strange. You walk away and come back to see a new message:
 
-    Insert a punched card with an (x+1)*(2*x - 4) graph into the slot for entry...
+    Insert a punched card with an (x+1)*(2*x-4) graph into the slot for entry...
 
 You repeat this simple operation several times and realize that every time you come up to the door, it generates a random expression that serves as the key for entry. But how can you get it?
 
@@ -39,7 +39,7 @@ While you're staring at the screen on the door and thinking, the text suddenly c
 
 Looks like there is also a timer changing the graph to make it more difficult..
 
-Next to one of the computers, you see a printer that prints on special punched cards. You take a look at several rejected cards and realize that the resolution is low, 79 by 79 points, and all the graphs are centered so that the origin coincides with the center of the card, and the range of definition is 4 Pi.
+Next to one of the computers, you see a printer that prints on special punched cards. You take a look at several rejected cards and realize that the resolution is low, 25 by 80 points, and all the graphs are centered so that the origin coincides with the center of the card, and the range of definition is 4 Pi.
 
 Your thoughts are interrupted by a painfully familiar mechanical AI voice coming from the speakers:
 
@@ -56,12 +56,96 @@ However, before you start working, you have to examine the hall for possible clu
 
 You didn't have to look far and had no problem pulling out a couple of crumpled sheets of paper from the wastepaper basket.
 
-***== Quest received. Develop an src/graph.c program in C for creating graphs of functions defined by arbitrary expressions. To calculate the values ​​of expressions, use Dijkstra's algorithm for translating expressions into Polish notation. The program must be decomposed into files (modules) and functions. Separately, add expression parsing and creating a list of lexical units, translation into Polish notation and calculation using this notation, drawing a graph in the terminal, and a library for organizing dynamic data structures (lists, stacks, etc.). Use only the C language and standard libraries. The size of the field for displaying graphs: a 79x79-point square. The orientation of the coordinate plane is standard: the Y-axis is directed upwards, the X-axis–to the right. Range of definition is 4 Pi. The scale on X and Y is equal. ==***
+***== Quest received. Develop an src/graph.c program in C for creating graphs of functions defined by arbitrary expressions. To calculate the values ​​of expressions, use Dijkstra's algorithm for translating expressions into Polish notation. The program is assembled using a Makefile. The name of the build stage is all. The executable file must be stored at the root in the build folder named graph. ==***
+
+* ***Conditions***
+
+The size of the field for displaying graphs is a rectangle of 25 by 80 points.
+
+Definition area - [0; 4 Pi]
+
+Range of values - [-1; 1]
+
+Orientation of the coordinate plane - the ordinate axis is directed downward, the abscissa axis is directed to the right.
+
+The center of coordinates is the upper left corner.
+
+You don't need to draw axes. 
+
+Nothing but the graph should be displayed.
+
+Values are rounded according to the rules of mathematics.
+
+* ***Graphics***
+  
+The field should be displayed using Star symbol for the chart line and "." for the rest of the screen space.
+
+* ***Modules***
+
+Expression parsing and creating a list of lexical units.
+
+Translation into Polish notation and calculation using this notation.
+
+Drawing a graph in the terminal.
+
+ library for organizing dynamic data structures (stack, list, etc.).
+
+
+<br/>
+<br/>
+
+ ***Example:*** 
+
+Input: 1/ln(x)+sin(x)
+
+Output:
+
+```
+......................................................*******...................
+...................................................***.......**.................
+.................................................**............**...............
+................................................*................**.............
+..............................................**...................*............
+.............................................*......................*...........
+............................................*........................*..........
+...........................................*..........................**........
+..........................................*.............................*.......
+.........................................*...............................*......
+........................................*.................................*.....
+.......................................*...................................*....
+*.....................................*.....................................*...
+.*...................................*.......................................*..
+..*.................................*.........................................*.
+...*...............................*...........................................*
+....*.............................*.............................................
+.....*...........................*..............................................
+......*........................**...............................................
+.......**.....................*.................................................
+.........*...................*..................................................
+..........**...............**...................................................
+............*.............*.....................................................
+.............***.......***......................................................
+................*******.........................................................
+```
+
+> Only math.h and stdio.h can be used
+
+## Important notes:
+
+* The game must be written in C, have a structured style, and run from the terminal; 
+  
+* Your source code will be tested by the static analyzer `cppcheck`, as well as the style linter `cpplint`. 
+  
+* Instructions on how to run these tests on your computer are in the `materials` folder. 
+  
+* We also recommend taking a look at the `code-samples` folder.
+
+* Check your program for memory leaks!
+
+> When developing the game, follow 
+the principles of structured programming of E. Dijkstra.
 
 ***LOADING...***
-
-> DON'T FORGET! All your programs are tested for the style norm and memory leaks. Start-up instructions
-> the list of tests is also in the `materials` folder
 
 # Chapter II
 
