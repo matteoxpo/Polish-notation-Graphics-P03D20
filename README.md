@@ -68,7 +68,7 @@ Range of values - [-1; 1]
 
 Orientation of the coordinate plane - the ordinate axis is directed downward, the abscissa axis is directed to the right.
 
-The center of coordinates is the upper left corner.
+The center of coordinates is middle of the left border (point {0, 13}).
 
 You don't need to draw axes. 
 
