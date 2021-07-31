@@ -128,7 +128,7 @@ Output:
 ................................................................................
 ```
 
-> Only `<math.h>`, `<stdio.h>`, `<stdlib.h>` and your own modules can be used 
+> Only `<math.h>`, `<stdio.h>`, `<stdlib.h>`, `<string.h>` and your own modules can be used 
 
 > This task does not provide an auto-check for output, your image may differ slightly from this example
 
