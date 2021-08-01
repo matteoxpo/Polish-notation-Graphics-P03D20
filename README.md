@@ -185,7 +185,7 @@ the principles of structured programming of E. Dijkstra.
 > "()" \
 > sin(x) \
 > cos(x) \
-> tg(x) \
+> tan(x) \
 > ctg(x) \
 > sqrt(x) \
 > ln(x)

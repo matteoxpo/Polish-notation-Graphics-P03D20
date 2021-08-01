@@ -183,7 +183,7 @@ LOADING Hall…***
 > "()" \
 > sin(x) \
 > cos(x) \
-> tg(x) \
+> tan(x) \
 > ctg(x) \
 > sqrt(x) \
 > ln(x)
