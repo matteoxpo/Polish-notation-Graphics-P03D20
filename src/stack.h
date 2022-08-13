@@ -9,7 +9,7 @@ struct stack {
 struct stack *init(char *val);
 struct stack *push(struct stack *h, char *val);
 struct stack *pop(struct stack *h);
-void decstroy(struct stack *h);
+void destroy(struct stack *h);
 void stack_output(struct stack *h);
 int stack_len(struct stack *h);
 char *pick(struct stack *h);

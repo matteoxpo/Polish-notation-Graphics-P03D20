@@ -58,4 +58,4 @@ int stack_len(struct stack *h) {
   return count;
 }
 
-char *pick(struct stack *h) { return h->data; }
+char pick(struct stack *h) { return h->data; }

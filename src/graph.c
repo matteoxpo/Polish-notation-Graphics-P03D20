@@ -2,21 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "parsing.h"
 #include "stack.h"
-#define OPERATIONS                                                         \
-  "(", "+", "-", "*", "\\", "sin", "cos", "tan", "ctg", "sqrt", "ln", "^", \
-      "~", ")"
-#define COUNT_OPERATIONS 13
 
 char* charInput();
 struct stack* Polska(char* input);
-int isNum(char c);
-int validOperation(char* oper, int oper_count, char** operations);
-int priorityOperation(char* oper, int oper_count, char** operations);
-int main() {
-  char* input = charInput();
-  printf("%s", input);
+int validInput(char* input);
 
+int main() {
+  char* funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)", "ln(x)"};
+  char* minifuncs = "sctgql";
+  char* input = charInput();
+  squeeze(input, ' ');
+  printf("%s\n ", input);
+  // printf("\n%s", expr);
+  while (*input != '\0') {
+    if (is_num(*input)) {
+      char* num;
+      input = get_num(input, &num);
+
+      printf("%s\n", num);
+      free(num);
+    }
+
+    input++;
+  }
+  /*
+  for (int i = 0; i < 6; i++) {
+    change_expr(input, funcs[i], minifuncs[i]);
+  }
+  printf("\n%s", input);
+  if (validInput(input)) {
+    Polska(input);
+  }
+  */
   return 0;
 }
 
@@ -35,38 +54,51 @@ char* charInput() {
   return res;
 }
 
+int validInput(char* input) {
+  int res = 1;
+  while (*input != '\0') {
+    if (!is_math_oper(*input) && !is_num(*input)) res = 0;
+    input++;
+  }
+  return res;
+}
+
 struct stack* Polska(char* input) {
   int size = strlen(input);
-  struct stack* res = malloc(size * sizeof(char));
-  struct stack* oper = malloc(size * sizeof(char));
-  char* temp = strtok(input, " ");
-  while (temp != NULL) {
-    if () {
+  struct stack* res = NULL;  // строка результат
+  struct stack* oper = NULL;  // строка куда кидаем операторов
+
+  while (*input != '\0') {
+    // если пришла операция
+    if (is_math_oper(*input)) {
+      char* op;
+      // елси приоритет операции на верхушке стека меньше пришедшей из строки -
+      if (oper != NULL ||
+          check_priority(*input) > check_priority(*pick(oper))) {
+        op = input;
+        push(oper, &op);  // пушим в стек
+      } else {
+        // если приоритет в стеке больше, чем в инпуте
+        // пока стек не пуст либо же не придет операция с меньшим приоритетом
+        while (oper != NULL ||
+               check_priority(*input) < check_priority(*pick(oper))) {
+          // выводим операции меньшего приоритета в строку результат
+          op = pick(oper);
+          push(res, &op);
+          // удаляем запушенную операцию из стека операций
+          pop(oper);
+        }
+      }
     }
-    temp = strtok(NULL, " ");
+    if (is_num(*input)) {
+      char* num;
+      input = get_num(input, &num);
+      push(res, num);
+      free(num);
+    }
+    input++;
   }
+
   free(oper);
-  return res;
-}
-
-int validOperation(char* oper, int oper_count, char** operations) {
-  int res = 1;
-  for (int i = 0; i < COUNT_OPERATIONS; i++) {
-    if (!strcmp(oper, operations[i])) {
-      res = 0;
-      break;
-    }
-  }
-  return res;
-}
-
-int priorityOperation(char* oper, int oper_count, char** operations) {
-  int res = 0;
-  for (int i = 0; i < COUNT_OPERATIONS; i++) {
-    if (strcmp(oper, operations[i])) {
-      if (i == 0) res = 0;
-      if (i == 1 || i == 2) res = 1;
-      if (i) }
-  }
   return res;
 }
