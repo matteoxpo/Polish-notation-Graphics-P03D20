@@ -88,10 +88,19 @@ char *str_transformation(char *input) {
 
 int valid_input(char *input) {
   int res = 1;
+  int countBrackets = 0;
   while (*input != '\0') {
-    if (!is_math_symbol(*input) && !is_num(*input) && !is_func(*input)) res = 0;
+    if (!is_math_symbol(*input) && !is_num(*input) && !is_func(*input) &&
+        *input != ')')
+      res = 0;
+    if (*input == ',') *input = '.';
+    if (*input == '(') countBrackets++;
+    if (*input == ')') countBrackets--;
+    if (countBrackets < 0) res = 0;
+    if (is_func(*input) && *(input + 1) != '(') res = 0;
     input++;
   }
+  if (countBrackets != 0) res = 0;
   return res;
 }
 

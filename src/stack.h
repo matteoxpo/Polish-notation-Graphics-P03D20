@@ -1,5 +1,5 @@
-#ifndef STACK_H_
-#define STACK_H_
+#ifndef SRC_STACK_H_
+#define SRC_STACK_H_
 
 struct stack {
   char data;
@@ -17,4 +17,4 @@ int stack_len(struct stack *h);
 char pick(struct stack *h);
 struct stack *reverse(struct stack *s);
 
-#endif
+#endif  // SRC_STACK_H_

@@ -20,22 +20,28 @@ float calculate_f(float* nums, char operation);
 
 int main() {
   char* input = charInput();
-
   input = str_transformation(input);
-  printf("input:%s\n", input);
-  struct stack* res = Polska(input);
-  struct stack* rev = reverse(res);
-  stack_output(rev);
-  printf("\n");
-  destroy(res);
-  print_graph(rev);
-  destroy(res);
+  if (valid_input(input)) {
+    printf("input:%s\n", input);
+    struct stack* res = Polska(input);
+    struct stack* rev = reverse(res);
+
+    print_graph(rev);
+
+    destroy(res);
+    destroy(rev);
+
+  } else {
+    printf("Неверный ввод! До свидания =)");
+  }
+  free(input);
 }
 
 struct stack* Polska(char* input) {
   struct stack *res = NULL, *oper = NULL;
-  char* num;
+  char* num = NULL;
   while (*input != '\0') {
+    if (*input == '(' && *(input + 1) == ')') input += 2;
     if (is_math_symbol(*input) || is_func(*input)) {
       if (oper == NULL || priority_compare(*input, pick(oper))) {
         oper = push(oper, *input);
@@ -52,12 +58,12 @@ struct stack* Polska(char* input) {
     }
     if (is_num(*input)) {
       input = get_num(input, &num);
-      if (*num != 'x')
+      if (*num != 'x') {
         res = push_num(res, atof(num));
-      else {
+      } else {
         res = push(res, *num);
-        free(num);
       }
+      free(num);
     }
     if (*input == ')') {
       while (oper->data != '(') {
@@ -72,6 +78,7 @@ struct stack* Polska(char* input) {
     res = push(res, pick(oper));
     oper = pop(oper);
   }
+  destroy(oper);
   return res;
 }
 
@@ -126,6 +133,8 @@ float func(struct stack* f, float x) {
     runner = runner->next;
   }
   operation_res = nums->num;
+
+  destroy(nums);
   free(nums_for_opertion);
   return operation_res;
 }

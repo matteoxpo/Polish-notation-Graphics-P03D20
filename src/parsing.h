@@ -1,5 +1,5 @@
-#ifndef PARSING_H_
-#define PARSING_H_
+#ifndef SRC_PARSING_H_
+#define SRC_PARSING_H_
 
 char *str_transformation(char *input);
 int valid_input(char *input);
@@ -14,4 +14,4 @@ void squeeze(char *s, int c);
 char *get_num(char *start, char **res);
 char *copy(char *start, int len);
 
-#endif  // PARSING_H_
+#endif  // SRC_PARSING_H_
