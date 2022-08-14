@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +8,8 @@
 
 char* charInput();
 struct stack* Polska(char* input);
+float func(struct stack* f, float x);
+float calculate_f(float* nums, char operation);
 
 int main() {
   char* input = charInput();
@@ -61,6 +64,81 @@ struct stack* Polska(char* input) {
   while (oper != NULL) {
     res = push(res, pick(oper));
     oper = pop(oper);
+  }
+  return res;
+}
+
+float func(struct stack* f, float x) {
+  float res = 0;
+  struct stack* nums = NULL;
+  struct stack* runner = f;
+  float* nums_for_opertion = malloc(2 * sizeof(float));
+  float operation_res;
+  char top;
+  int oper_dimension;
+  while (runner != NULL) {
+    top = pick(runner);
+    if (top == 'x' || top == '\0') {
+      if (top == '\0')
+        nums = push_num(nums, runner->num);
+      else
+        nums = push_nums(nums, x);
+    } else {
+      for (int i = 0; i < check_dimension(top); i++) {
+        nums_for_opertion[i] = nums->num;
+        nums = pop(nums);
+      }
+      operation_res = calculate_f(nums_for_opertion, top);
+    }
+    runner = runner->next;
+  }
+  free(nums_for_opertion);
+  return res;
+}
+
+/*
+       sin         cos         tg          ctg         sqrt        ln
+  if (c == 's' || c == 'c' || c == 't' || c == 'g' || c == 'q' || c == 'l')
+
+  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^'
+*/
+
+float calculate_f(float* nums, char operation) {
+  float res = 0;
+  switch (operation) {
+    case '+':
+      res = nums[1] + nums[0];
+      break;
+    case '-':
+      res = nums[1] - nums[0];
+      break;
+    case '*':
+      res = nums[1] * nums[0];
+      break;
+    case '/':
+      res = nums[1] / nums[0];
+      break;
+    case '^':
+      res = pow(nums[1], nums[0]);
+      break;
+    case 's':
+      res = sin(nums[0]);
+      break;
+    case 'c':
+      res = cos(nums[0]);
+      break;
+    case 't':
+      res = tan(nums[0]);
+      break;
+    case 'g':
+      res = pow(tan(nums[0]), -1);
+      break;
+    case 'q':
+      res = sqrt(nums[0]);
+      break;
+    case 'l':
+      res = log(nums[0]);
+      break;
   }
   return res;
 }

@@ -48,6 +48,13 @@ int priority_compare(char op1, char op2) {
   return check_priority(op1) > check_priority(op2);
 }
 
+int check_dimension(char operation) {
+  int size = 2;
+  if (is_math_symbol(operation)) size = 2;
+  if (is_func(operation) || operation == '~') size = 1;
+  return size;
+}
+
 int is_func(char c) {
   int res = 0;
   //       sin         cos         tg          ctg         sqrt        ln
@@ -69,8 +76,6 @@ int is_num(char c) {
 }
 
 char *str_transformation(char *input) {
-  // char *funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)",
-  // "ln(x)"};
   char *funcs[] = {"sin", "cos", "tg", "ctg", "sqrt", "ln"};
   char *minifuncs = "sctgql";
   squeeze(input, ' ');
