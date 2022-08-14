@@ -44,6 +44,10 @@ int check_priority(char operation) {
   return priority;
 }
 
+int priority_compare(char op1, char op2) {
+  return check_priority(op1) > check_priority(op2);
+}
+
 int is_func(char c) {
   int res = 0;
   //       sin         cos         tg          ctg         sqrt        ln

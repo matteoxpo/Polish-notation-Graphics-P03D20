@@ -31,15 +31,12 @@ struct stack* Polska(char* input) {
   char op;
   while (*input != '\0') {
     if (is_math_symbol(*input) || is_func(*input)) {
-      if (oper == NULL || check_priority(*input) > check_priority(pick(oper))) {
-        op = *input;
-        oper = push(oper, op);
+      if (oper == NULL || priority_compare(*input, pick(oper))) {
+        oper = push(oper, *input);
       } else if (*input != '(') {
-        while (oper != NULL &&
-               check_priority(*input) <= check_priority(pick(oper)) &&
+        while (oper != NULL && !priority_compare(*input, pick(oper)) &&
                pick(oper) != '(') {
-          op = pick(oper);
-          res = push(res, op);
+          res = push(res, pick(oper));
           oper = pop(oper);
         }
         oper = push(oper, *input);

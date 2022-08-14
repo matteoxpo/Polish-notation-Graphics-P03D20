@@ -4,6 +4,7 @@
 char *str_transformation(char *input);
 int valid_input(char *input);
 int check_priority(char operation);
+int priority_compare(char op1, char op2);
 int is_func(char c);
 int is_math_symbol(char c);
 int is_num(char c);
