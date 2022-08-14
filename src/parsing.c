@@ -22,9 +22,6 @@ char *charInput() {
 int check_priority(char operation) {
   int priority = 10;
   switch (operation) {
-    case '(':
-      priority = 6;
-      break;
     case '+':
     case '-':
       priority = 2;
@@ -38,6 +35,9 @@ int check_priority(char operation) {
       break;
     case '~':
       priority = 5;
+      break;
+    case '(':
+      priority = 6;
       break;
   }
   if (is_func(operation)) priority = 5;

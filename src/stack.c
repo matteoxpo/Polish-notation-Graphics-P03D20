@@ -77,3 +77,16 @@ int stack_len(struct stack *h) {
 }
 
 char pick(struct stack *h) { return h->data; }
+
+struct stack *reverse(struct stack *s) {
+  struct stack *res = NULL;
+  struct stack *runner = s;
+  while (runner != NULL) {
+    if (pick(runner) != '\0')
+      res = push(res, runner->data);
+    else
+      res = push_num(res, runner->num);
+    runner = runner->next;
+  }
+  return res;
+}
