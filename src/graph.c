@@ -30,33 +30,37 @@ struct stack* Polska(char* input) {
   struct stack* oper = NULL;  // строка куда кидаем операторов
   char op;
   while (*input != '\0') {
-    if (is_math_oper(*input)) {
+    if (is_math_symbol(*input) || is_func(*input)) {
       if (oper == NULL || check_priority(*input) > check_priority(pick(oper))) {
         op = *input;
         oper = push(oper, op);
-      } else {
+      } else if (*input != '(') {
         while (oper != NULL &&
-               check_priority(*input) <= check_priority(pick(oper))) {
+               check_priority(*input) <= check_priority(pick(oper)) &&
+               pick(oper) != '(') {
           op = pick(oper);
           res = push(res, op);
           oper = pop(oper);
         }
         oper = push(oper, *input);
+      } else {
+        op = *input;
+        oper = push(oper, op);
       }
       if (*input != '\0') input++;
     }
+
     if (is_num(*input)) {
       char* num;
       input = get_num(input, &num);
 
       if (*num != 'x')
         res = push_num(res, atof(num));
-      else
+      else {
         res = push(res, *num);
-      free(num);
-      // if (*input == '\0') break;
+        free(num);
+      }
     }
-
     if (*input == ')') {
       while (oper != NULL && oper->data != '(') {
         op = pick(oper);

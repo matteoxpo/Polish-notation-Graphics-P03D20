@@ -23,7 +23,7 @@ int check_priority(char operation) {
   int priority = 10;
   switch (operation) {
     case '(':
-      priority = 1;
+      priority = 6;
       break;
     case '+':
     case '-':
@@ -34,7 +34,6 @@ int check_priority(char operation) {
       priority = 3;
       break;
     case '^':
-    case '#':
       priority = 4;
       break;
     case '~':
@@ -49,20 +48,16 @@ int is_func(char c) {
   int res = 0;
   //       sin         cos         tg          ctg         sqrt        ln
   if (c == 's' || c == 'c' || c == 't' || c == 'g' || c == 'q' || c == 'l')
-    res = 1;  // sin(x) + 5 + ln(x) *x --> s + 5 +l*x
+    res = 1;
   return res;
 }
 int is_math_symbol(char c) {
   int res = 0;
-  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^') res = 1;
+  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^' || c == '(')
+    res = 1;
   return res;
 }
 
-int is_math_oper(char c) {
-  int res = 0;
-  if (is_func(c) || is_math_symbol(c) || c == '(') res = 1;
-  return res;
-}
 int is_num(char c) {
   int res = 0;
   if ((c >= '0' && c <= '9') || c == '.' || c == ',' || c == 'x') res = 1;
@@ -70,8 +65,9 @@ int is_num(char c) {
 }
 
 char *str_transformation(char *input) {
-  char *funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)", "ln(x)"};
-  // char *funcs[] = {"sin", "cos", "tg", "ctg", "sqrt", "ln"};
+  // char *funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)",
+  // "ln(x)"};
+  char *funcs[] = {"sin", "cos", "tg", "ctg", "sqrt", "ln"};
   char *minifuncs = "sctgql";
   squeeze(input, ' ');
   for (int i = 0; i < 6; i++) {
@@ -83,7 +79,7 @@ char *str_transformation(char *input) {
 int valid_input(char *input) {
   int res = 1;
   while (*input != '\0') {
-    if (!is_math_oper(*input) && !is_num(*input)) res = 0;
+    if (!is_math_symbol(*input) && !is_num(*input) && !is_func(*input)) res = 0;
     input++;
   }
   return res;
