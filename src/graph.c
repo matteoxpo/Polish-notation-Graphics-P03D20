@@ -9,6 +9,9 @@
 
 #define H 25
 #define W 80
+#define DOT '*'
+#define EMPRTY ' '
+
 char* charInput();
 struct stack* Polska(char* input);
 void print_graph(struct stack* exp);
@@ -19,21 +22,11 @@ int main() {
   char* input = charInput();
 
   input = str_transformation(input);
-  printf("%s\n", input);
   struct stack* res = Polska(input);
-  printf("Time to look at stack\n");
   struct stack* rev = reverse(res);
-  stack_output(res);
   destroy(res);
-  printf("\n");
-  stack_output(rev);
-  printf("\n\n");
-  float num;
-  scanf("%f", &num);
-  printf("%f\n", func(rev, 1));
-  printf("%f\n", func(rev, num + 1));
-  printf("%f\n", func(rev, num + 2));
-  //  print_graph(rev);
+  print_graph(rev);
+  destroy(res);
 }
 
 struct stack* Polska(char* input) {
@@ -80,26 +73,30 @@ struct stack* Polska(char* input) {
 }
 
 void print_graph(struct stack* exp) {
+  float y;
+  float x = 0, h = -1.0, step = 2.0 / 24.0;
+  int normal = 1;
   char** field;
-  if (!allocMem(&field, H, W))
-    printf("ДОБАВЬ ПОПОЗЖЕ ЭТОТ ИФ ВОНЮЧИЙ СТРЕМНЫЙ___))))))");
-
-  float step = 4 * M_PI / (W - 1);
-  float max = -INFINITY;
-  float min = INFINITY;
-
-  float norma = (min + max) / H;
-  for (int y = 0; y < H; y++) {
-    for (float x = -M_PI; x <= M_PI + 0.001; x += step) {
-      float res = func(exp, x);
-      if (res > (max - (x + 1) * norma) && res <= (max - x * norma))
-        printf("*");
-      else
-        printf(" ");
+  if (allocMem(&field, H, W)) {
+    for (int i = 0; i < W; i++) {
+      y = func(exp, x);
+      h = -1.0;
+      for (int j = 0; j < H; j++) {
+        if (y >= h - step / 2 && y <= h + step / 2 && normal) {
+          field[j][i] = DOT;
+        } else if (y >= h - step / 2 && y <= h + step / 2 && !normal) {
+          field[j][i] = EMPRTY;
+        } else {
+          field[j][i] = EMPRTY;
+        }
+        h += step;
+      }
+      x += (4.0 * M_PI) / (W - 1);
     }
-    printf("\n");
+    turn_over(field, H);
+    output_matrix(field, H, W);
   }
-  printf("\n-------------------------------");
+  freeMem(field, H);
 }
 
 float func(struct stack* f, float x) {
@@ -118,15 +115,12 @@ float func(struct stack* f, float x) {
         nums = push_num(nums, x);
     } else {
       for (int i = 0; i < check_dimension(top); i++) {
-        // printf("Now i am pushing: %f\n", nums->num);
         nums_for_opertion[i] = nums->num;
         nums = pop(nums);
       }
       operation_res = calculate_f(nums_for_opertion, top);
-      // printf("Oper result: %f\n", operation_res);
       nums = push_num(nums, operation_res);
     }
-    // printf("\n\n");
     runner = runner->next;
   }
   operation_res = nums->num;

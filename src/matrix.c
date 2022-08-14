@@ -1,6 +1,7 @@
+#include "matrix.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
 int allocMem(char ***matrix, int n, int m) {
   int check = 1;
   (*matrix) = malloc(n * sizeof(char *));
@@ -33,4 +34,16 @@ void output_matrix(char **matrix, int n, int m) {
     }
     if (i != n - 1) printf("\n");
   }
+}
+
+void turn_over(char **matrix, int n) {
+  for (int i = 0; i < n / 2; i++) {
+    swap(matrix, i, n - 1 - i);
+  }
+}
+
+void swap(char **matrix, int i, int j) {
+  char *temp = matrix[i];
+  matrix[i] = matrix[j];
+  matrix[j] = temp;
 }
