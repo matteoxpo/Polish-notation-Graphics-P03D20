@@ -71,6 +71,7 @@ int is_num(char c) {
 
 char *str_transformation(char *input) {
   char *funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)", "ln(x)"};
+  // char *funcs[] = {"sin", "cos", "tg", "ctg", "sqrt", "ln"};
   char *minifuncs = "sctgql";
   squeeze(input, ' ');
   for (int i = 0; i < 6; i++) {

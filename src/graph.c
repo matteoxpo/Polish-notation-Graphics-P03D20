@@ -13,7 +13,7 @@ int main() {
 
   input = str_transformation(input);
   struct stack* res = Polska(input);
-  printf("\n\nTime to look at stack\n");
+  printf("Time to look at stack\n");
   stack_output(res);
 
   /*
@@ -26,8 +26,8 @@ int main() {
 struct stack* Polska(char* input) {
   printf("Expression:%s\n", input);
   int size = strlen(input);
-  struct stack* res = NULL;
-  struct stack* oper = NULL;
+  struct stack* res = NULL;  // строка результат
+  struct stack* oper = NULL;  // строка куда кидаем операторов
   char op;
   while (*input != '\0') {
     if (is_math_oper(*input)) {
@@ -48,12 +48,13 @@ struct stack* Polska(char* input) {
     if (is_num(*input)) {
       char* num;
       input = get_num(input, &num);
+
       if (*num != 'x')
         res = push_num(res, atof(num));
       else
         res = push(res, *num);
       free(num);
-      if (*input == '\0') break;
+      // if (*input == '\0') break;
     }
 
     if (*input == ')') {
@@ -66,9 +67,9 @@ struct stack* Polska(char* input) {
       input++;
     }
   }
+
   while (oper != NULL) {
     op = pick(oper);
-    printf("%c\n", op);
     res = push(res, op);
     oper = pop(oper);
   }

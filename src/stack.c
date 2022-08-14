@@ -12,7 +12,6 @@ struct stack *init(char val, float d) {
 }
 
 struct stack *push(struct stack *h, char val) {
-  printf("NOW PUSH %c\n", val);
   if (h != NULL) {
     struct stack *new_el = init(val, 0);
     new_el->next = h;
@@ -24,7 +23,6 @@ struct stack *push(struct stack *h, char val) {
 }
 
 struct stack *push_num(struct stack *h, float val) {
-  printf("\n\nNOW PUSH %f\n", val);
   if (h != NULL) {
     struct stack *new_el = init('\0', val);
     new_el->next = h;
