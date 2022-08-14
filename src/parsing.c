@@ -4,11 +4,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+char *charInput() {
+  char *res = malloc(sizeof(char));
+  int i = 0;
+  while (1) {
+    scanf("%c", &(res[i]));
+    res = realloc(res, sizeof(char));
+    if (res[i] == '\n') {
+      res[i] = '\0';
+      break;
+    }
+    i++;
+  }
+  return res;
+}
+
 int check_priority(char operation) {
   int priority = 10;
   switch (operation) {
     case '(':
-    case ')':
       priority = 1;
       break;
     case '+':
@@ -46,12 +60,31 @@ int is_math_symbol(char c) {
 
 int is_math_oper(char c) {
   int res = 0;
-  if (is_func(c) || is_math_symbol(c)) res = 1;
+  if (is_func(c) || is_math_symbol(c) || c == '(') res = 1;
   return res;
 }
 int is_num(char c) {
   int res = 0;
-  if ((c >= '0' && c <= '9') || c == '.' || c == ',') res = 1;
+  if ((c >= '0' && c <= '9') || c == '.' || c == ',' || c == 'x') res = 1;
+  return res;
+}
+
+char *str_transformation(char *input) {
+  char *funcs[] = {"sin(x)", "cos(x)", "tg(x)", "ctg(x)", "sqrt(x)", "ln(x)"};
+  char *minifuncs = "sctgql";
+  squeeze(input, ' ');
+  for (int i = 0; i < 6; i++) {
+    change_expr(input, funcs[i], minifuncs[i]);
+  }
+  return input;
+}
+
+int valid_input(char *input) {
+  int res = 1;
+  while (*input != '\0') {
+    if (!is_math_oper(*input) && !is_num(*input)) res = 0;
+    input++;
+  }
   return res;
 }
 
@@ -77,11 +110,11 @@ void squeeze(char *s, int c) {
 }
 
 char *get_num(char *start, char **res) {
-  int len = 1;
+  int len = 0;
   char *runner = start;
   while (is_num(*runner) && *runner != '\0') {
-    len++;
     runner++;
+    len++;
   }
   *res = copy(start, len);
   start += len;
