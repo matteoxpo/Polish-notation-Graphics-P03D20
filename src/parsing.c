@@ -9,12 +9,17 @@ char *charInput() {
   int i = 0;
   while (1) {
     scanf("%c", &(res[i]));
-    res = realloc(res, sizeof(char));
-    if (res[i] == '\n') {
-      res[i] = '\0';
-      break;
+    char *tmp = realloc(res, sizeof(char));
+    if (tmp != NULL) res = tmp;
+    if (res != NULL) {
+      if (res[i] == '\n') {
+        res[i] = '\0';
+        break;
+      }
+      i++;
+    } else {
+      free(res);
     }
-    i++;
   }
   return res;
 }
@@ -77,8 +82,8 @@ int is_num(char c) {
 }
 
 char *str_transformation(char *input) {
-  char *funcs[] = {"sin", "cos", "tg", "ctg", "sqrt", "ln"};
-  char *minifuncs = "sctgql";
+  char *funcs[] = {"sin", "cos", "ctg", "tg", "sqrt", "ln"};
+  char *minifuncs = "scgtql";
   squeeze(input, ' ');
   for (int i = 0; i < 6; i++) {
     change_expr(input, funcs[i], minifuncs[i]);
@@ -107,6 +112,7 @@ int valid_input(char *input) {
 void change_expr(char *exp, char *func, char sym) {
   while (strstr(exp, func) != NULL) {
     char *change = strstr(exp, func);
+    if (sym == 'g') printf("%s", change);
     int i = strlen(exp) - strlen(change);
     exp[i] = sym;
     i++;

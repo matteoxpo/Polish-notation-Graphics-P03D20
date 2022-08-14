@@ -10,7 +10,7 @@
 #define H 25
 #define W 80
 #define DOT '*'
-#define EMPRTY '-'
+#define EMPTY '.'
 
 char* charInput();
 struct stack* Polska(char* input);
@@ -22,7 +22,6 @@ int main() {
   char* input = charInput();
   input = str_transformation(input);
   if (valid_input(input)) {
-    printf("input:%s\n", input);
     struct stack* res = Polska(input);
     struct stack* rev = reverse(res);
 
@@ -30,9 +29,6 @@ int main() {
 
     destroy(res);
     destroy(rev);
-
-  } else {
-    printf("Неверный ввод! До свидания =)");
   }
   free(input);
 }
@@ -83,21 +79,17 @@ struct stack* Polska(char* input) {
 }
 
 void print_graph(struct stack* exp) {
-  float y;
-  float x = 0, h = -1.0, step = 2.0 / 24.0;
-  int normal = 1;
   char** field;
   if (allocMem(&field, H, W)) {
+    float x = 0, step = 2.0 / 24.0;
     for (int i = 0; i < W; i++) {
-      y = func(exp, x);
-      h = -1.0;
+      float y = func(exp, x);
+      float h = -1.0;
       for (int j = 0; j < H; j++) {
-        if (y >= h - step / 2 && y <= h + step / 2 && normal) {
+        if (y >= h - step / 2 && y <= h + step / 2) {
           field[j][i] = DOT;
-        } else if (y >= h - step / 2 && y <= h + step / 2 && !normal) {
-          field[j][i] = EMPRTY;
         } else {
-          field[j][i] = EMPRTY;
+          field[j][i] = EMPTY;
         }
         h += step;
       }
@@ -114,9 +106,8 @@ float func(struct stack* f, float x) {
   struct stack* runner = f;
   float* nums_for_opertion = malloc(2 * sizeof(float));
   float operation_res = 0;
-  char top;
   while (runner != NULL) {
-    top = pick(runner);
+    char top = pick(runner);
     if (top == 'x' || top == '\0') {
       if (top == '\0')
         nums = push_num(nums, runner->num);
@@ -132,7 +123,7 @@ float func(struct stack* f, float x) {
     }
     runner = runner->next;
   }
-  operation_res = nums->num;
+  if (nums != NULL) operation_res = nums->num;
 
   destroy(nums);
   free(nums_for_opertion);

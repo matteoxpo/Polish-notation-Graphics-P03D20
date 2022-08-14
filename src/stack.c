@@ -52,31 +52,6 @@ void destroy(struct stack *h) {
   }
 }
 
-void stack_output(struct stack *h) {
-  if (h == NULL) {
-    printf("Stack is empty");
-  } else {
-    struct stack *runner = h;
-    while (runner != NULL) {
-      if (runner->data != '\0')
-        printf("%c ", runner->data);
-      else
-        printf("%.2f ", runner->num);
-      runner = runner->next;
-    }
-  }
-}
-
-int stack_len(struct stack *h) {
-  struct stack *runner = h;
-  int count = 0;
-  while (runner != NULL) {
-    count++;
-    runner = runner->next;
-  }
-  return count;
-}
-
 char pick(struct stack *h) { return h->data; }
 
 struct stack *reverse(struct stack *s) {
