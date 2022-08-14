@@ -3,11 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "matrix.h"
 #include "parsing.h"
 #include "stack.h"
 
+#define H 25
+#define W 80
 char* charInput();
 struct stack* Polska(char* input);
+void print_graph(struct stack* exp);
 float func(struct stack* f, float x);
 float calculate_f(float* nums, char operation);
 
@@ -23,6 +27,13 @@ int main() {
   destroy(res);
   printf("\n");
   stack_output(rev);
+  printf("\n\n");
+  float num;
+  scanf("%f", &num);
+  printf("%f\n", func(rev, 1));
+  printf("%f\n", func(rev, num + 1));
+  printf("%f\n", func(rev, num + 2));
+  //  print_graph(rev);
 }
 
 struct stack* Polska(char* input) {
@@ -68,12 +79,34 @@ struct stack* Polska(char* input) {
   return res;
 }
 
+void print_graph(struct stack* exp) {
+  char** field;
+  if (!allocMem(&field, H, W))
+    printf("ДОБАВЬ ПОПОЗЖЕ ЭТОТ ИФ ВОНЮЧИЙ СТРЕМНЫЙ___))))))");
+
+  float step = 4 * M_PI / (W - 1);
+  float max = -INFINITY;
+  float min = INFINITY;
+
+  float norma = (min + max) / H;
+  for (int y = 0; y < H; y++) {
+    for (float x = -M_PI; x <= M_PI + 0.001; x += step) {
+      float res = func(exp, x);
+      if (res > (max - (x + 1) * norma) && res <= (max - x * norma))
+        printf("*");
+      else
+        printf(" ");
+    }
+    printf("\n");
+  }
+  printf("\n-------------------------------");
+}
+
 float func(struct stack* f, float x) {
-  float res = 0;
   struct stack* nums = NULL;
   struct stack* runner = f;
   float* nums_for_opertion = malloc(2 * sizeof(float));
-  float operation_res;
+  float operation_res = 0;
   char top;
   int oper_dimension;
   while (runner != NULL) {
@@ -82,26 +115,24 @@ float func(struct stack* f, float x) {
       if (top == '\0')
         nums = push_num(nums, runner->num);
       else
-        nums = push_nums(nums, x);
+        nums = push_num(nums, x);
     } else {
       for (int i = 0; i < check_dimension(top); i++) {
+        // printf("Now i am pushing: %f\n", nums->num);
         nums_for_opertion[i] = nums->num;
         nums = pop(nums);
       }
       operation_res = calculate_f(nums_for_opertion, top);
+      // printf("Oper result: %f\n", operation_res);
+      nums = push_num(nums, operation_res);
     }
+    // printf("\n\n");
     runner = runner->next;
   }
+  operation_res = nums->num;
   free(nums_for_opertion);
-  return res;
+  return operation_res;
 }
-
-/*
-       sin         cos         tg          ctg         sqrt        ln
-  if (c == 's' || c == 'c' || c == 't' || c == 'g' || c == 'q' || c == 'l')
-
-  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^'
-*/
 
 float calculate_f(float* nums, char operation) {
   float res = 0;
@@ -139,6 +170,8 @@ float calculate_f(float* nums, char operation) {
     case 'l':
       res = log(nums[0]);
       break;
+    case '~':
+      res = -1 * nums[0];
   }
   return res;
 }

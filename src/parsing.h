@@ -1,5 +1,5 @@
-#ifndef PARSIN_H
-#define PARSIN_H
+#ifndef PARSING_H
+#define PARSING_H
 
 char *str_transformation(char *input);
 int valid_input(char *input);
