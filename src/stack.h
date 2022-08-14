@@ -1,5 +1,5 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef STACK_H_
+#define STACK_H_
 
 struct stack {
   char data;

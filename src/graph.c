@@ -10,7 +10,7 @@
 #define H 25
 #define W 80
 #define DOT '*'
-#define EMPRTY ' '
+#define EMPRTY '-'
 
 char* charInput();
 struct stack* Polska(char* input);
@@ -22,8 +22,11 @@ int main() {
   char* input = charInput();
 
   input = str_transformation(input);
+  printf("input:%s\n", input);
   struct stack* res = Polska(input);
   struct stack* rev = reverse(res);
+  stack_output(rev);
+  printf("\n");
   destroy(res);
   print_graph(rev);
   destroy(res);
@@ -105,7 +108,6 @@ float func(struct stack* f, float x) {
   float* nums_for_opertion = malloc(2 * sizeof(float));
   float operation_res = 0;
   char top;
-  int oper_dimension;
   while (runner != NULL) {
     top = pick(runner);
     if (top == 'x' || top == '\0') {

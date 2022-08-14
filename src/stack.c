@@ -41,6 +41,7 @@ struct stack *pop(struct stack *h) {
   }
   return h;
 }
+
 void destroy(struct stack *h) {
   struct stack *destroyer = h;
 

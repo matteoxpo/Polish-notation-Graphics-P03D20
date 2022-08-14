@@ -64,7 +64,8 @@ int is_func(char c) {
 }
 int is_math_symbol(char c) {
   int res = 0;
-  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^' || c == '(')
+  if (c == '*' || c == '-' || c == '+' || c == '/' || c == '^' || c == '(' ||
+      c == '~')
     res = 1;
   return res;
 }
@@ -101,7 +102,7 @@ void change_expr(char *exp, char *func, char sym) {
     exp[i] = sym;
     i++;
     int size = strlen(func) + i;
-    for (i; i < size - 1; i++) {
+    for (; i < size - 1; i++) {
       exp[i] = ' ';
     }
   }
